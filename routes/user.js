@@ -34,7 +34,9 @@ router.post(
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).json({
-                errors: errors.array()
+                success: false,
+                message: 'Input validation errors',
+                data: errors.array()
             });
         }
 
@@ -49,7 +51,9 @@ router.post(
             });
             if (user) {
                 return res.status(400).json({
-                    msg: "User Already Exists"
+                    success: false,
+                    message: "User Already Exists",
+                    data: {}
                 });
             }
 
@@ -78,13 +82,22 @@ router.post(
                 (err, token) => {
                     if (err) throw err;
                     res.status(200).json({
-                        token
+                        success: true,
+                        message: "User Created",
+                        data: {
+                            user,
+                            token
+                        }
                     });
                 }
             );
         } catch (err) {
             console.log(err.message);
-            res.status(500).send("Error in Saving");
+            res.status(500).send({
+                success: false,
+                message: "Server Error",
+                data: {}
+            });
         }
     }
 );
@@ -108,7 +121,9 @@ router.post(
 
         if (!errors.isEmpty()) {
             return res.status(400).json({
-                errors: errors.array()
+                success: false,
+                message: 'Input validation errors',
+                data: errors.array()
             });
         }
 
@@ -122,13 +137,17 @@ router.post(
             });
             if (!user)
                 return res.status(400).json({
-                    message: "User Not Exist"
+                    success: false,
+                    message: "User Not Exist",
+                    data: {}
                 });
 
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch)
                 return res.status(400).json({
-                    message: "Incorrect Password !"
+                    success: false,
+                    message: "Incorrect Password !",
+                    data: {}
                 });
 
             const payload = {
@@ -145,15 +164,21 @@ router.post(
                 (err, token) => {
                     if (err) throw err;
                     res.status(200).json({
-                        user,
-                        token
+                        success: true,
+                        message: "User Created",
+                        data: {
+                            user,
+                            token
+                        }
                     });
                 }
             );
         } catch (e) {
             console.error(e);
             res.status(500).json({
-                message: "Server Error"
+                success: false,
+                message: "Server Error",
+                data: {}
             });
         }
     }
@@ -169,10 +194,18 @@ router.get("/me", auth, async (req, res) => {
     try {
         // request.user is getting fetched from Middleware after token authentication
         const user = await User.findById(req.user.id);
-        res.json(user);
+        res.status(200).json({
+            success: true,
+            message: "User Created",
+            data: {
+                user
+            }
+        });
     } catch (e) {
-        res.send({
-            message: "Error in Fetching user"
+        res.status(500).send({
+            success: false,
+            message: "Error in Fetching user",
+            data: {}
         });
     }
 });
