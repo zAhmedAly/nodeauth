@@ -1,0 +1,31 @@
+{
+  "name": "nodeauth",
+  "version": "1.0.0",
+  "description": "Node Auth App",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zAhmedAly/nodeauth.git"
+  },
+  "author": "Ahmed Aly",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zAhmedAly/nodeauth/issues"
+  },
+  "homepage": "https://github.com/zAhmedAly/nodeauth#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.3.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.8.2"
+  },
+  "devDependencies": {
+    "morgan": "^1.9.1"
+  }
+}

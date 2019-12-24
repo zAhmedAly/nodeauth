@@ -1,0 +1,6 @@
+echo "# nodeauth" >> README.md
+git init
+git add README.md
+git commit -m "initialize git repo"
+git remote add origin https://github.com/zAhmedAly/nodeauth.git
+git push -u origin master
